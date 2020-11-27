@@ -181,7 +181,7 @@
                 </q-item>
             </q-list>
 
-            <div class="full-width flex flex-center" style="height: calc(100vh - 204px);">
+            <div class="full-width flex flex-center" style="height: calc(100vh - 204px);" v-else>
                 <div class="text-center">
                     <q-icon name="fas fa-frown-open" size="42px" color="grey-5"/>
                     <div class="full-width text-center text-italic text-grey-6">
