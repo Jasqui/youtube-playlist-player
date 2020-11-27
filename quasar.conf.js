@@ -132,7 +132,7 @@ module.exports = function (/* ctx */) {
         description: `An app for playlists from youtube`,
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
+        background_color: '#c00',
         theme_color: '#027be3',
         icons: [
           {

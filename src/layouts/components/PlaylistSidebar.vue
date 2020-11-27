@@ -4,7 +4,6 @@
         @input="$emit('input')"
 
         show-if-above
-        bordered
         content-class="bg-grey-1"
         :breakpoint="300"
     >
@@ -60,8 +59,11 @@
                 class="full-width"
                 outlined
                 bg-color="white"
+
+                ref="playlistInput"
                 
                 @keyup.enter="onLinkSubmit"
+                @click="onPlaylistLinkInputFocus"
             >
                 <template v-slot:append>
                     <q-btn
@@ -87,7 +89,7 @@
                     round
                     :unelevated="isShuffled"
 
-                    :color="!isShuffled ? 'primary' : 'blue-2'"
+                    :color="!isShuffled ? 'primary' : 'red-2'"
                     text-color="primary"
                 >
                     <!-- :color="isShuffled ? 'primary' : 'grey'" -->
@@ -178,6 +180,49 @@
                             {{playlistItem.snippet.title}}
                         </q-item-label>
                     </q-item-section>
+                    <q-item-section side>
+                        <q-btn
+                            flat
+                            icon="fas fa-ellipsis-v"
+                            dense
+                            size="xs"
+                            round
+                            @click.stop="_ => null"
+                        >
+                            <q-menu>
+                                <q-list style="min-width: 100px">
+                                    <q-item clickable v-close-popup @click="CopyLinkToClipboard(playlistItem)">
+                                        <q-item-section>
+                                            Copy Link
+                                        </q-item-section>
+                                    </q-item>
+                                    <q-item clickable>
+                                        <q-item-section>
+                                            Remove
+                                        </q-item-section>
+                                        <q-item-section side>
+                                            <q-icon name="keyboard_arrow_right" />
+                                        </q-item-section>
+
+                                        <q-menu anchor="top right" self="top left">
+                                            <q-list>
+                                                <q-item clickable v-close-popup @click="RemoveVideoHere(playlistItem)">
+                                                    <q-item-section>
+                                                        Here
+                                                    </q-item-section>
+                                                </q-item>                                                
+                                                <q-item clickable disable>
+                                                    <q-item-section>
+                                                        From Youtube
+                                                    </q-item-section>
+                                                </q-item>
+                                            </q-list>
+                                        </q-menu>
+                                    </q-item>
+                                </q-list>
+                            </q-menu>
+                        </q-btn>
+                    </q-item-section>
                 </q-item>
             </q-list>
 
@@ -209,6 +254,7 @@
 
 <script>
 import StateControllerMixin from '@mixins/StateControllerMixin.js'
+import { copyToClipboard } from 'quasar'
 
 export default {
     name: 'PlaylistSidebar',
@@ -229,6 +275,20 @@ export default {
         };
     },
     methods: {
+        CopyLinkToClipboard(playlistItem) {
+            let videoId = playlistItem.contentDetails.videoId;
+
+            copyToClipboard(`https://www.youtube.com/watch?v=${videoId}`);
+        },
+        RemoveVideoHere(playlistItem) {
+            let id = playlistItem.id;
+
+            this.RemoveVidTemp(id);
+        },
+        onPlaylistLinkInputFocus() {
+            if (this.$refs.playlistInput && this.$refs.playlistInput.focused)
+                this.$refs.playlistInput.select();
+        },
         ToggleShuffleList() {
             this.SetShuffledList(!this.isShuffled);
         },

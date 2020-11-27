@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { Shuffle } from '@js/Utils.js'
 
 export function SetCurrentVideo (state, videoId) {
@@ -53,4 +54,20 @@ export function TogglePlayState(state) {
     }
 
     state.isPlaying = !state.isPlaying;
+}
+
+export function RemoveVidTemp(state, id) {
+    let found = state.originalVideoList.find(a => a.id === id);
+    let index = found ? state.originalVideoList.indexOf(found) : null;
+
+    let foundShf = state.shuffledList.find(b => b.id === id);
+    let indexShf = foundShf ? state.shuffledList.indexOf(foundShf) : null;
+
+    if (index != null) {
+        state.originalVideoList.splice(index, 1);
+    }
+
+    if (indexShf != null) {
+        state.shuffledList.splice(indexShf, 1);
+    }
 }

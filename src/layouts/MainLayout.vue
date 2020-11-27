@@ -21,6 +21,8 @@
 
     <playlist-sidebar v-model="leftDrawerOpen"/>
 
+    <!-- <options-sidebar v-model="rightDrawerOpen"/> -->
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -29,13 +31,15 @@
 
 <script>
 import PlaylistSidebar from './components/PlaylistSidebar.vue';
+import OptionsSidebar from './components/OptionsSidebar.vue';
 
 export default {
   name: 'MainLayout',
-  components: { PlaylistSidebar },
+  components: { PlaylistSidebar, OptionsSidebar },
   data () {
     return {
-      leftDrawerOpen: true
+      leftDrawerOpen: true,
+      rightDrawerOpen: true
     }
   }
 }

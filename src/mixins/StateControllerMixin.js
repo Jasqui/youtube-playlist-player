@@ -10,7 +10,8 @@ export default {
             'GoPreviousVid',
             'AddVideo',
             'TogglePlayState',
-            'ToggleRepeatOptions'
+            'ToggleRepeatOptions',
+            'RemoveVidTemp'
         ]),
         ...mapGetters('States', [
             'GetCurrentVideo',

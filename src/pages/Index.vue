@@ -1,5 +1,5 @@
 <template>
-    <q-page style="background-color: #010001">
+    <q-page class="bg-dark">
             <youtube
                 :video-id="videoId"
 
