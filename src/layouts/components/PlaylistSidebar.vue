@@ -161,15 +161,16 @@
             </q-toolbar>
         </q-slide-transition>
 
-        <q-scroll-area style="height: calc(100vh - 144px); margin-top: 136px">
+        <q-scroll-area style="height: calc(100vh - 176px); margin-top: 136px; margin-bottom: 32px">
             <q-list v-if="originalVideoList.length">
-                <q-item v-for="playlistItem in isShuffled ? shuffledList : originalVideoList" :key="playlistItem.id" clickable @click="onVideoSelect(playlistItem)"
+                <q-item v-for="playlistItem in (isShuffled ? shuffledList : originalVideoList)" :key="playlistItem.id" clickable @click="onVideoSelect(playlistItem)"
                     :active="playlistItem.contentDetails.videoId == videoId">
                     <q-item-section avatar>
                         <q-img
                             :src="playlistItem.snippet.thumbnails.default.url"
                             width="60px"
                             height="45px"
+                            v-if="playlistItem.snippet && playlistItem.snippet.thumbnails && playlistItem.snippet.thumbnails.default && playlistItem.snippet.thumbnails.default.url"
                         />
     <!-- 
                         :width="`${playlistItem.snippet.thumbnails.default.width}px`"
@@ -249,6 +250,29 @@
                 </q-toolbar-title>
             </q-bar>
         </q-slide-transition>
+
+        <q-slide-transition>
+            <q-bar
+                class="absolute-bottom bg-white text-center"
+                v-if="originalVideoList.length"
+            >
+                <q-toolbar-title
+                    style="font-size: 13px"
+                    class="text-primary text-bold"
+                    v-if="currentVideoIndex != null"
+                >
+                    {{currentVideoIndex + 1}} of {{totalVideos}}
+                </q-toolbar-title>
+
+                <q-toolbar-title
+                    style="font-size: 13px"
+                    class="text-primary text-bold"
+                    v-else
+                >
+                    {{totalVideos}} videos
+                </q-toolbar-title>
+            </q-bar>
+        </q-slide-transition>
     </q-drawer>
 </template>
 
@@ -273,6 +297,15 @@ export default {
                 round: true
             }
         };
+    },
+    computed: {
+        currentVideoIndex() {
+            let index = this.GetCurrentVideoIndex();
+            return index != -1 ? index : null;
+        },
+        totalVideos() {
+            return this.originalVideoList.length;
+        }
     },
     methods: {
         CopyLinkToClipboard(playlistItem) {
@@ -311,7 +344,9 @@ export default {
             this.GetPlaylistItems(pageToken)
             .then(response => {
                 let nextToken = response.data.nextPageToken;
-                this.playlistItems.push(...response.data.items);
+                this.playlistItems.push(...response.data.items.filter( a => 
+                    !!a.snippet && !!a.snippet.thumbnails && !!a.snippet.thumbnails.default && a.snippet.title != "Deleted video"
+                ));
 
                 if (!!nextToken) {
                     this.GetAllPlaylistItems(nextToken);

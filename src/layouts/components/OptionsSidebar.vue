@@ -7,24 +7,21 @@
 
         show-if-above
         
-        :width="65"
+        :width="70"
 
         content-class="bg-primary"
         :breakpoint="300"
     >
-        <div class="absolute-bottom z-top row q-pa-none">
-            <div class="col-12 q-pr-md q-pl-sm">
-                <q-separator color="white" />
-            </div>
-            <div class="col-12 flex flex-center q-pr-md q-pl-sm">
-                <q-btn
-                    icon="fas fa-cog"
-                    color="white"
-                    flat
-                    class="full-width"
-                    size="lg"
-                />
-            </div>
+        <q-img src="~assets/quasar-logo-full.svg" />
+        <div class="absolute-bottom text-center">
+            <q-btn
+                icon="fas fa-cog"
+                color="white"
+                flat
+                round
+                dense
+                size="lg"
+            />    
         </div>
     </q-drawer>    
 </template>

@@ -5,6 +5,8 @@ export default function () {
     originalVideoList: [],
     shuffledList: [],
     isShuffled: false,
-    isPlaying: false
+    isPlaying: false,
+
+    deletedVideos: 0
   }
 }

@@ -15,7 +15,8 @@ export default {
         ]),
         ...mapGetters('States', [
             'GetCurrentVideo',
-            'GetCurrentVideoTitle'
+            'GetCurrentVideoTitle',
+            'GetCurrentVideoIndex'
         ])
     },
     computed: {

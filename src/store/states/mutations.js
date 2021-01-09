@@ -71,3 +71,7 @@ export function RemoveVidTemp(state, id) {
         state.shuffledList.splice(indexShf, 1);
     }
 }
+
+export function SetDeletedVideosCount(state, val) {
+    state.deletedVideos = val;
+}
